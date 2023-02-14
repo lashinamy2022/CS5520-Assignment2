@@ -7,9 +7,9 @@ import Input from "../components/Input";
 const Entries = ({ navigation }) => {
   return (
     <View style={CommonStyles.container}>
-        <Card customizedStyle={CommonStyles.directionRow}>
+        <Card customizedStyle={[CommonStyles.directionRow,{marginTop: 20}]}>
           <Label content="Breakfast"/>
-          <Input />
+          <Input readOnly={false}/>
         </Card>
     </View>
   );

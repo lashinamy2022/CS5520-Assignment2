@@ -5,7 +5,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Entries from "./screens/Entries";
-import PressableButton from "./components/PressableButton"; 
+import PressableButton from "./components/PressableButton";
+import CommonStyles from "./styles/CommonStyles";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,18 +14,21 @@ function MyTabs() {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerStyle: styles.purpleDark,
-        headerTintColor: "#fff",
+        headerStyle: CommonStyles.purpleDark,
+        headerTintColor: CommonStyles.fontWhite,
       }}
     >
-      <Tab.Screen name="All Entries" component={Entries} 
-      options={({navigation, route}) => ({
-        headerRight:()=>(
-          <PressableButton>
-            <Text style={styles.plusButton}>+</Text>
-          </PressableButton>
-        )
-      })}/>
+      <Tab.Screen
+        name="All Entries"
+        component={Entries}
+        options={({ navigation, route }) => ({
+          headerRight: () => (
+            <PressableButton>
+              <Text style={[styles.plusButton, CommonStyles.fontWhite]}>+</Text>
+            </PressableButton>
+          ),
+        })}
+      />
       <Tab.Screen name="Over-limit Entries" component={Entries} />
     </Tab.Navigator>
   );
@@ -49,18 +53,8 @@ const App = () => {
 export default App;
 
 const styles = StyleSheet.create({
-  purpleDark: {
-    backgroundColor: "rgb(60,61,132)",
-  },
-  purpleMedium: {
-    backgroundColor: "rgb(127,123,189)",
-  },
-  purpleLight: {
-    backgroundColor: "rgb(154,150,221)",
-  },
   plusButton: {
-    fontSize:30, 
-    color: '#fff', 
-    marginRight: 15
-  }
+    fontSize: 30,
+    marginRight: 15,
+  },
 });
