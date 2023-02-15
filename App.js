@@ -7,29 +7,47 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Entries from "./screens/Entries";
 import PressableButton from "./components/PressableButton";
 import CommonStyles from "./styles/CommonStyles";
-
+import { Ionicons } from "@expo/vector-icons";
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerStyle: CommonStyles.purpleDark,
-        headerTintColor: '#fff',
-      }}
+        headerTintColor: "#fff",
+        tabBarStyle: CommonStyles.purpleDark,
+        tabBarActiveTintColor: "rgb(235,187,66)",
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === "all") {
+            iconName = "cafe";
+          } else if (route.name === "over") {
+            iconName = "alert-outline";
+          }
+          return (
+            <Ionicons name={iconName} size={size} color={color}></Ionicons>
+          );
+        },
+        headerRight: () => (
+          <PressableButton>
+            <Ionicons name="add" size={30} color="#fff" />
+          </PressableButton>
+        ),
+      })}
     >
       <Tab.Screen
-        name="All Entries"
+        name="all"
         component={Entries}
-        options={({ navigation, route }) => ({
-          headerRight: () => (
-            <PressableButton>
-              <Text style={[styles.plusButton, CommonStyles.fontWhite]}>+</Text>
-            </PressableButton>
-          ),
-        })}
+        options={{ title: "All Entries" }}
       />
-      <Tab.Screen name="Over-limit Entries" component={Entries} />
+      <Tab.Screen
+        name="over"
+        component={Entries}
+        options={{
+          title: "Over-limit Entries",
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -52,9 +70,4 @@ const App = () => {
 
 export default App;
 
-const styles = StyleSheet.create({
-  plusButton: {
-    fontSize: 30,
-    marginRight: 15,
-  },
-});
+const styles = StyleSheet.create({});
