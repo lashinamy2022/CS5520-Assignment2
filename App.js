@@ -15,7 +15,7 @@ function MyTabs() {
     <Tab.Navigator
       screenOptions={{
         headerStyle: CommonStyles.purpleDark,
-        headerTintColor: CommonStyles.fontWhite,
+        headerTintColor: '#fff',
       }}
     >
       <Tab.Screen

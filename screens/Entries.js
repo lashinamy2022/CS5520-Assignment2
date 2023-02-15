@@ -9,6 +9,7 @@ const Entries = ({ navigation }) => {
     <View style={CommonStyles.container}>
         <Card customizedStyle={[CommonStyles.directionRow,{marginTop: 20}]}>
           <Label content="Breakfast"/>
+          <Image source={require("../assets/warning.png")}/>
           <Input readOnly={false}/>
         </Card>
     </View>
