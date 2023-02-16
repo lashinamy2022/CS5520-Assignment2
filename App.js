@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ navigation, route }) => ({
         headerStyle: CommonStyles.purpleDark,
         headerTintColor: "#fff",
         tabBarStyle: CommonStyles.purpleDark,
@@ -32,7 +32,11 @@ function MyTabs() {
           );
         },
         headerRight: () => (
-          <PressableArea>
+          <PressableArea
+            areaPressed={() => {
+              navigation.navigate("Add");
+            }}
+          >
             <Ionicons name="add" size={30} color="#fff" />
           </PressableArea>
         ),

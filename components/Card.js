@@ -14,7 +14,6 @@ export default Card;
 
 const styles = StyleSheet.create({
   item: {
-    width: 330,
     height: 50,
     backgroundColor:  "rgb(60,61,132)",
   },

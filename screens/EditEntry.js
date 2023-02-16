@@ -9,6 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 const EditEntry = () => {
   return (
     <View style={[CommonStyles.container, { alignItems: "center" }]}>
+
       <Card
         customizedStyle={[
           CommonStyles.purpleLight,
@@ -18,7 +19,7 @@ const EditEntry = () => {
         <View style={[CommonStyles.center, { marginTop: 15 }]}>
           <Label
             content="Calories: 560"
-            customizedStyle={{ color: "rgb(60,61,132)", fontSize: 20 }}
+            customizedStyle={[CommonStyles.fontSizeLarge, CommonStyles.fontPurpleDark]}
           />
           <Label
             content="Description: Breakfast"

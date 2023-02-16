@@ -18,6 +18,12 @@ const CommonStyles = StyleSheet.create({
   fontWhite: {
     color: "#fff",
   },
+  fontPurpleDark:{
+    color: "rgb(60,61,132)",
+  },
+  fontSizeLarge: {
+    fontSize: 20,
+  },
   directionRow: {
     flexDirection: "row",
     justifyContent: "space-between",
