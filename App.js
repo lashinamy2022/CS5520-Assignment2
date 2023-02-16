@@ -5,9 +5,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Entries from "./screens/Entries";
-import PressableButton from "./components/PressableButton";
+import PressableArea from "./components/PressableArea";
 import CommonStyles from "./styles/CommonStyles";
 import { Ionicons } from "@expo/vector-icons";
+import EditEntry from "./screens/EditEntry";
+import AddEntry from "./screens/AddEntry";
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -30,9 +32,9 @@ function MyTabs() {
           );
         },
         headerRight: () => (
-          <PressableButton>
+          <PressableArea>
             <Ionicons name="add" size={30} color="#fff" />
-          </PressableButton>
+          </PressableArea>
         ),
       })}
     >
@@ -57,11 +59,26 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: CommonStyles.purpleDark,
+          headerTintColor: "#fff",
+        }}
+      >
         <Stack.Screen
           name="Home"
           component={MyTabs}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Edit"
+          component={EditEntry}
+          options={{ title: "Edit Entry" }}
+        />
+        <Stack.Screen
+          name="Add"
+          component={AddEntry}
+          options={{ title: "Add An Entry" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

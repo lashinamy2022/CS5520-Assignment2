@@ -1,10 +1,10 @@
 import { StyleSheet, View, Text, TextInput } from "react-native";
 import React from "react";
 
-const Input = ({readOnly}) => {
+const Input = ({editable}) => {
   return (
     <>
-      <TextInput value="250"  style={styles.container} readOnly={readOnly}/>
+      <TextInput value="250"  style={styles.container} editable={editable}/>
     </>
   );
 };

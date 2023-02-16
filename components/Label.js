@@ -6,7 +6,7 @@ const Label = ({ content, customizedStyle }) => {
   return (
     <>
       <Text
-        style={[CommonStyles.fontWhite, { fontWeight: "bold", marginLeft: 13 }, customizedStyle]}
+        style={[CommonStyles.fontWhite, { fontWeight: "bold"}, customizedStyle]}
       >
         {content}
       </Text>
