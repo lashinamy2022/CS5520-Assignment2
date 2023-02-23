@@ -1,34 +1,65 @@
 import { StyleSheet, View, ScrollView, SafeAreaView, Text } from "react-native";
-import React from "react";
+import { collection, onSnapshot } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import CommonStyles from "../styles/CommonStyles";
 import Card from "../components/Card";
 import Label from "../components/Label";
-import Input from "../components/Input";
 import { Ionicons } from "@expo/vector-icons";
 import PressableArea from "../components/PressableArea";
+import { firestore } from "../firebase/firebase-setup";
+
 const Entries = ({ navigation }) => {
+  const limit = 500;
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(firestore, "entries"),
+      (querySnapshot) => {
+        if (querySnapshot.empty) {
+          setAllEntries([]);
+        } else {
+          let items = [];
+          querySnapshot.forEach((doc) => {
+            items.push({ ...doc.data(), id: doc.id });
+          });
+          setAllEntries(items);
+        }
+      }
+    );
+    return function cleanup() {
+      unsubscribe();
+    };
+  }, []);
+
+  const [allEntries, setAllEntries] = useState([]);
+
   return (
     <SafeAreaView style={CommonStyles.container}>
       <ScrollView contentContainerStyle={{ alignItems: "center" }}>
-        <PressableArea
-          areaPressed={() => {
-            navigation.navigate("Edit");
-          }}
-          customizedStyle={styles.pressableAreaCustom}
-        >
-          <Label content="Breakfast" customizedStyle={{marginLeft: 13}} />
-          <View style={[CommonStyles.directionRow]}>
-            <Ionicons name="warning" size={25} color="yellow" />
-            <Card
-              customizedStyle={styles.cardCustom}
+        {allEntries.map((entry) => {
+          return (
+            <PressableArea
+              key={entry.id}
+              areaPressed={() => {
+                navigation.navigate("Edit");
+              }}
+              customizedStyle={styles.pressableAreaCustom}
             >
               <Label
-                content="600"
-                customizedStyle={{ color: "black"}}
+                content={entry.desc}
+                customizedStyle={{ marginLeft: 13 }}
               />
-            </Card>
-          </View>
-        </PressableArea>
+              <View style={[CommonStyles.directionRow]}>
+                {entry.calories > limit && <Ionicons name="warning" size={25} color="yellow" />}
+                <Card customizedStyle={styles.cardCustom}>
+                  <Label
+                    content={entry.calories}
+                    customizedStyle={{ color: "black" }}
+                  />
+                </Card>
+              </View>
+            </PressableArea>
+          );
+        })}
       </ScrollView>
     </SafeAreaView>
   );
@@ -43,7 +74,7 @@ const styles = StyleSheet.create({
     CommonStyles.commonCardStyle,
     CommonStyles.directionRow,
   ],
-  cardCustom:  [
+  cardCustom: [
     {
       width: 80,
       height: 30,
@@ -51,5 +82,5 @@ const styles = StyleSheet.create({
       marginRight: 13,
     },
     CommonStyles.center,
-  ]
+  ],
 });

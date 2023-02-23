@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
       width: 220,
       height: 35,
       borderRadius: 5,
+      fontSize: 20
     },
     CommonStyles.purpleLight,
   ],
