@@ -18,6 +18,7 @@ function MyTabs() {
       screenOptions={({ navigation, route }) => ({
         headerStyle: CommonStyles.purpleDark,
         headerTintColor: "#fff",
+        headerTitleAlign:"center",
         tabBarStyle: CommonStyles.purpleDark,
         tabBarActiveTintColor: "rgb(235,187,66)",
         tabBarIcon: ({ focused, color, size }) => {
@@ -67,6 +68,7 @@ const App = () => {
         screenOptions={{
           headerStyle: CommonStyles.purpleDark,
           headerTintColor: "#fff",
+          headerTitleAlign:"center",
         }}
       >
         <Stack.Screen

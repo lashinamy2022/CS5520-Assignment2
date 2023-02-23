@@ -1,10 +1,14 @@
 import { StyleSheet, View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import CommonStyles from "../styles/CommonStyles";
 import Label from "../components/Label";
 import Input from "../components/Input";
 import PressableArea from "../components/PressableArea";
+import { writeToDB } from "../firebase/firebase-helper";
+
 const AddEntry = () => {
+  const [calories, setCalories] = useState("");
+  const [desc, setDesc] = useState("");
   return (
     <View style={[CommonStyles.container, { alignItems: "center" }]}>
       <View style={styles.firstRow}>
@@ -15,7 +19,13 @@ const AddEntry = () => {
             CommonStyles.fontSizeLarge,
           ]}
         />
-        <Input />
+        <Input
+          value={calories}
+          setEnteredValue={(calories) => {
+            setCalories(calories);
+          }}
+          isMultiline={false}
+        />
       </View>
       <View style={styles.secondRow}>
         <Label
@@ -25,16 +35,36 @@ const AddEntry = () => {
             CommonStyles.fontSizeLarge,
           ]}
         />
-        <Input customizedStyle={{ height: 120 }} />
+        <Input
+          customizedStyle={{ height: 120 }}
+          value={desc}
+          setEnteredValue={(desc) => {
+            setDesc(desc);
+          }}
+          isMultiline={true}
+        />
       </View>
       <View style={styles.thirdRow}>
-        <PressableArea customizedStyle={styles.pressableAreaCustom}>
+        <PressableArea
+          customizedStyle={styles.pressableAreaCustom}
+          areaPressed={() => {
+            setCalories("");
+            setDesc("");
+          }}
+        >
           <Label
             content="Reset"
             customizedStyle={[{ fontWeight: "normal", fontSize: 15 }]}
           />
         </PressableArea>
-        <PressableArea customizedStyle={styles.pressableAreaCustom}>
+        <PressableArea
+          customizedStyle={styles.pressableAreaCustom}
+          areaPressed={() => {
+            //TODO
+            //validate
+            writeToDB({ calories: calories, desc: desc });
+          }}
+        >
           <Label
             content="Submit"
             customizedStyle={{ fontWeight: "normal", fontSize: 15 }}
@@ -56,10 +86,7 @@ const styles = StyleSheet.create({
     CommonStyles.directionRow,
     { marginTop: 20, width: "90%", alignItems: "flex-start" },
   ],
-  thirdRow: [
-    CommonStyles.directionRow,
-    { marginTop: 20, width: "69%"},
-  ],
+  thirdRow: [CommonStyles.directionRow, { marginTop: 20, width: "69%" }],
   pressableAreaCustom: [
     { marginTop: 20, width: 120, height: 40 },
     CommonStyles.purpleDark,

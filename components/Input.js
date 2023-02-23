@@ -2,10 +2,18 @@ import { StyleSheet, View, Text, TextInput } from "react-native";
 import React from "react";
 import CommonStyles from "../styles/CommonStyles";
 
-const Input = ({customizedStyle}) => {
+const Input = ({ customizedStyle, value, setEnteredValue, isMultiline }) => {
   return (
     <>
-      <TextInput value="" style={[styles.container, customizedStyle]} />
+      <TextInput
+        value={value}
+        style={[styles.container, customizedStyle]}
+        onChangeText={(changedText) => {
+          setEnteredValue(changedText);
+        }}
+        multiline={isMultiline}
+        textAlignVertical="top"
+      />
     </>
   );
 };
