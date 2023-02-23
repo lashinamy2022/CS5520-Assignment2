@@ -1,12 +1,14 @@
-import { StyleSheet, View, Text } from "react-native";
-import React, { useState } from "react";
+import { StyleSheet, View, Text, Alert } from "react-native";
+import { useState } from "react";
 import CommonStyles from "../styles/CommonStyles";
 import Label from "../components/Label";
 import Input from "../components/Input";
 import PressableArea from "../components/PressableArea";
 import { writeToDB } from "../firebase/firebase-helper";
+import { serverTimestamp } from "firebase/firestore";
 
-const AddEntry = () => {
+
+const AddEntry = ({navigation}) => {
   const [calories, setCalories] = useState("");
   const [desc, setDesc] = useState("");
   return (
@@ -60,9 +62,24 @@ const AddEntry = () => {
         <PressableArea
           customizedStyle={styles.pressableAreaCustom}
           areaPressed={() => {
-            //TODO
             //validate
-            writeToDB({ calories: calories, desc: desc });
+            let numReg = /^\+?[1-9][0-9]*$/;
+            if (
+              !numReg.test(calories) ||
+              desc.length === 0 ||
+              desc.length > 10
+            ) {
+              Alert.alert("Invalid input", "Please check your input values", [
+                { text: "OK", onPress: () => console.log("OK Pressed") },
+              ]);
+              return;
+            }
+            let data = { calories: parseInt(calories), desc: desc.trim(), timestamp: serverTimestamp() };
+            if (parseInt(calories) > 500) {
+              data = {...data, reviewed: false};
+            }
+            writeToDB(data);
+            navigation.navigate("Home");
           }}
         >
           <Label
