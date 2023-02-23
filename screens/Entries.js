@@ -1,5 +1,5 @@
 import { StyleSheet, View, ScrollView, SafeAreaView, Text } from "react-native";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, where, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import CommonStyles from "../styles/CommonStyles";
 import Card from "../components/Card";
@@ -8,11 +8,17 @@ import { Ionicons } from "@expo/vector-icons";
 import PressableArea from "../components/PressableArea";
 import { firestore } from "../firebase/firebase-setup";
 
-const Entries = ({ navigation }) => {
+const Entries = ({ navigation, route }) => {
   const limit = 500;
   useEffect(() => {
+    let q;
+    if (route.name === 'all') {
+      q = query(collection(firestore, "entries"), orderBy("timestamp", "desc"));
+    } else if (route.name === 'over') {
+      q = query(collection(firestore, "entries"), where("reviewed", "==", false));
+    }
     const unsubscribe = onSnapshot(
-      collection(firestore, "entries"),
+      q,
       (querySnapshot) => {
         if (querySnapshot.empty) {
           setAllEntries([]);
@@ -40,7 +46,7 @@ const Entries = ({ navigation }) => {
             <PressableArea
               key={entry.id}
               areaPressed={() => {
-                navigation.navigate("Edit");
+                navigation.navigate("Edit", {entry: entry, pageName: route.name});
               }}
               customizedStyle={styles.pressableAreaCustom}
             >
@@ -49,7 +55,7 @@ const Entries = ({ navigation }) => {
                 customizedStyle={{ marginLeft: 13 }}
               />
               <View style={[CommonStyles.directionRow]}>
-                {entry.calories > limit && <Ionicons name="warning" size={25} color="yellow" />}
+                {entry.calories > limit && !entry.reviewed && <Ionicons name="warning" size={25} color="yellow" />}
                 <Card customizedStyle={styles.cardCustom}>
                   <Label
                     content={entry.calories}
