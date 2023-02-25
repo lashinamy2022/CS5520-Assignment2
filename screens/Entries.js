@@ -55,7 +55,7 @@ const Entries = ({ navigation, route }) => {
                 customizedStyle={{ marginLeft: 13 }}
               />
               <View style={[CommonStyles.directionRow]}>
-                {entry.calories > limit && entry.reviewed && <Ionicons name="warning" size={25} color="yellow" />}
+                {entry.calories > limit && !entry.reviewed && <Ionicons name="warning" size={25} color="yellow" />}
                 <Card customizedStyle={styles.cardCustom}>
                   <Label
                     content={entry.calories}
